@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use or build on this work, please cite it as below."
+title: "Above 4G Decoding unlock: enabling a hidden 64-bit PCIe MMIO window on OEM UEFI boards"
+abstract: >-
+  Documentation and guarded tools for enabling Above 4G Decoding / Above 4GB MMIO on OEM UEFI boards that
+  ship the option but hide it, so a large-BAR GPU can boot instead of failing with "PCI Out of Resources".
+  The method edits the board's own UEFI setup variables with a backup first, dry-run by default, refusal
+  of any wrong-size or protected write, and a live measurement of vendor checksum guards. Reference build:
+  Lenovo ThinkCentre M720q Tiny with a 16 GB NVIDIA A2.
+type: software
+authors:
+  - alias: dmmdea
+repository-code: "https://github.com/dmmdea/above-4g-decoding-unlock"
+license: MIT
+keywords:
+  - Above 4G Decoding
+  - PCIe BAR
+  - MMIO
+  - UEFI variables
+  - efivarfs
+  - OEM firmware
+  - hardware reuse
