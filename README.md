@@ -109,7 +109,7 @@ verification by physical outcome.
 
 ## License and trademarks
 
-Code: MIT, no warranty. Docs and images: CC BY 4.0 (see [LICENSE](LICENSE)). Editing your own firmware
+Code: MIT, no warranty. Docs and images: CC BY 4.0 (see [LICENSE-DOCS.md](LICENSE-DOCS.md)). Editing your own firmware
 settings is your decision and your risk. Lenovo, ThinkCentre, NVIDIA, AMI and Intel are trademarks of
 their owners, used here only to describe hardware; this project is not affiliated with or endorsed by
 any of them.
