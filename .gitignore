@@ -1,0 +1,14 @@
+# scratch / local
+*.bin
+*.rom
+*.cap
+*.fd
+dump*/
+*_dump/
+firmware-backup/
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
+*.local
