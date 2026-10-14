@@ -1,0 +1,64 @@
+{
+  "_example_warning": "EXAMPLE - verify against YOUR firmware. These values were measured on one reference build: a Lenovo ThinkCentre M720q running BIOS M1UKT72A. Offsets move between BIOS builds, and matching variable sizes is not proof. Do not use this file on another board or BIOS version. Check every value against the IFR dump of YOUR OWN BIOS image, edit what differs, then set verified_by_user to true. See README.md.",
+  "profile_version": 1,
+  "title": "EXAMPLE: Lenovo ThinkCentre M720q, BIOS M1UKT72A (reference build)",
+  "verified_by_user": false,
+
+  "firmware": {
+    "bios_version": "M1UKT72A",
+    "_optional": "Add board_name and product_name exactly as /sys/class/dmi/id/board_name and product_name report them on YOUR machine, and the tool will require them to match."
+  },
+
+  "variables": {
+    "setup": {
+      "name": "Setup",
+      "guid": "EC87D643-EBA4-4BB5-A1E5-3F3E36B20DA9",
+      "data_length": 5000,
+      "attrs": "0x7",
+      "_note": "data_length 5000 = 0x1388. Several other stores share this GUID under different names; the name selects the right one."
+    },
+    "checksum": {
+      "name": "LastCheckSum",
+      "guid": "E102C8AA-0F10-4A0E-90A7-A6F816089BB7",
+      "data_length": 2,
+      "attrs": "0x7",
+      "_note": "Lenovo GUID, NOT the Setup GUID. Two data bytes, little-endian."
+    },
+    "pci_common": {
+      "name": "PCI_COMMON",
+      "guid": "ACA9F304-21E2-4852-9875-7FF4881D67A5",
+      "data_length": 7,
+      "attrs": "0x7"
+    }
+  },
+
+  "fields": {
+    "setup": {
+      "offset": "0xA49",
+      "width": 1,
+      "expect_old": "0x00",
+      "new": "0x01",
+      "label": "Above 4GB MMIO BIOS assignment (IFR OneOf, QuestionId 0x54, default Disabled)",
+      "_note": "Found by reading the IFR question's own VarOffset, not by grep. Offset 0x993 on this build is Aperture Size, not the gate."
+    },
+    "pci_common": {
+      "offset": "0x3",
+      "width": 1,
+      "expect_old": "0x00",
+      "new": "0x01",
+      "label": "Above 4G Decoding (dynamic question, no static IFR entry)",
+      "_note": "Whether this byte was necessary on the reference build is unproven: it was changed together with the Setup byte. Run with --only setup first. Byte 0 of this variable is deliberately absent; do not add it."
+    }
+  },
+
+  "checksum": {
+    "model": "sum16-le-live-delta",
+    "max_delta": 1,
+    "_note": "new LastCheckSum = sum16(new Setup data) + the delta measured live, modulo 65536. max_delta is a safety bound, not the expected value: 0 and 1 were both observed on the reference build. A delta above the bound, or one that wraps negative, means this model is wrong for the board: the tool refuses."
+  },
+
+  "guard_flags": ["SetupDataChecksumError", "RestoreSetupDataFlag", "BIOSSetupDataChangedFlag"],
+  "watch": ["SysEventLogCount"],
+  "also_backup": ["LastSetupdataSum"],
+  "_lists": "guard_flags must read all-zero before the write and again after the reboot. watch values are recorded before the write and compared after the reboot. also_backup variables are saved for the record and never restored. Each entry is a NAME (looked up in the efivars directory; refused if ambiguous) or NAME-GUID. Names missing on your firmware produce a warning, not a failure."
+}

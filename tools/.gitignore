@@ -1,0 +1,4 @@
+*.pyc
+__pycache__/
+# backup directories made by uefivar.py / above4g_unlock.py hold a full Setup blob
+efivar-backup-*/
